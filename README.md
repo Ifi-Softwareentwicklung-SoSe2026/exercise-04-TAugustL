@@ -1,4 +1,3 @@
-[![Open in Codespaces](https://classroom.github.com/assets/launch-codespace-2972f46106e565e64193e422d61a12cf1da4916b45550586e14ef0a7c637dd04.svg)](https://classroom.github.com/open-in-codespaces?assignment_repo_id=24054028)
 <!--
 
 author:   Volker Göhler
@@ -434,11 +433,11 @@ class Roboter
   + Energielevel: int
 
   + SpeichernAlsCSV(string): void
-  + LadenAusCSV(string): Roboter
+  + static LadenAusCSV(string): Roboter
   + SpeichernAlsJSON(string): void
-  + LadenAusJSON(string): Roboter
-  + GetStatus(): string
-  + Activate(): void
+  + static LadenAusJSON(string): Roboter
+  + virtual GetStatus(): string
+  + virtual Activate(): void
 }
 
 class Lieferroboter
@@ -446,15 +445,15 @@ class Lieferroboter
   + Lieferkapazität: int
   + Lieferroboter(string, int, int): Lieferroboter
   + Lieferroboter(): Lieferroboter
-  + GetStatus(): string
+  + override GetStatus(): string
 }
 
 interface ISerializer
 {
     + SpeichernAlsJSON(string): void
-    + LadenAusJSON(string): Roboter
+    + static abstract LadenAusJSON(string): Roboter
     + SpeichernAlsCSV(string): void
-    + LadenAusCSV(string): Roboter
+    + static abstract LadenAusCSV(string): Roboter
 }
 
 ISerializer <|.. Roboter
