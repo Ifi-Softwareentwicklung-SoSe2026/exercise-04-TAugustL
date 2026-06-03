@@ -22,6 +22,7 @@ public class Roboter : ISerializer
     public string Name { get; set; }
     public string Typ { get; set; } // z. B. "Lieferroboter", "Schwimmroboter", etc.
     public int Energielevel { get; set; }
+    public bool Active { get; set; }
 
     public void SpeichernAlsCSV(string dateipfad)
     {
@@ -77,22 +78,31 @@ public class Roboter : ISerializer
         if (Energielevel > 0)
         {
             Console.WriteLine("activated");
+            Active = true;
             Energielevel--;
             return;
         }
 
         Console.WriteLine("energy depleted");
     }
+
+    public void Deactivate()
+    {
+        Active = false;
+        Console.WriteLine("robot powered down");
+    }
+
+    
 }
 
 public class Lieferroboter : Roboter
 {
-    public int Lieferkapazität { get; set; }
+    public uint Lieferkapazität { get; set; }
     public Lieferroboter() : base()
     {
         Typ = "Lieferroboter";
     }
-    public Lieferroboter(string name, int energielevel, int lieferkapazität) : base(name, "Lieferroboter", energielevel)
+    public Lieferroboter(string name, int energielevel, uint lieferkapazität) : base(name, "Lieferroboter", energielevel)
     {
         Lieferkapazität = lieferkapazität;
     }
