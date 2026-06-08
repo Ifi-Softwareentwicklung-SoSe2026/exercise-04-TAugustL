@@ -10,6 +10,6 @@ public interface ISerializer
 
 public interface ICookable
 {
-    static abstract gibRezept();
+    static abstract string gibRezept();
     int gibNaerwertangaben();
 }

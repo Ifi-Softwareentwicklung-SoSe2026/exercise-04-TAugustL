@@ -6,29 +6,26 @@ using System.Text.Json.Serialization;
 [JsonPolymorphic(TypeDiscriminatorPropertyName = "$type")]
 [JsonDerivedType(typeof(Roboter), "roboter")]
 [JsonDerivedType(typeof(Lieferroboter), "lieferroboter")]
-public class Roboter : ISerializer
+public class Roboter : ISerializer, ICookable
 {
-    public Roboter(string name, string typ, int energielevel)
+    public Roboter(string name, int energielevel)
     {
         Name = name;
-        Typ = typ;
         Energielevel = energielevel;
     }
     public Roboter()
     {
         Name = "Unbekannt";
-        Typ = "Unbekannt";
     }
     public string Name { get; set; }
-    public string Typ { get; set; } // z. B. "Lieferroboter", "Schwimmroboter", etc.
     public int Energielevel { get; set; }
     public bool Active { get; set; }
 
     public void SpeichernAlsCSV(string dateipfad)
     {
         string inhalt = this is Lieferroboter lieferroboter
-            ? $"{Name},{Typ},{Energielevel},{lieferroboter.Lieferkapazität}"
-            : $"{Name},{Typ},{Energielevel}";
+            ? $"{Name},{Energielevel},{lieferroboter.Lieferkapazität}"
+            : $"{Name},{Energielevel}";
         File.WriteAllText(dateipfad, inhalt);
     }
 
@@ -38,19 +35,11 @@ public class Roboter : ISerializer
         string[] werte = zeilen[0].Split(',');
 
         string name = werte[0];
-        string typ = werte[1];
         int energielevel = int.Parse(werte[2]);
-
-        if (typ == "Lieferroboter" && werte.Length > 3)
-        {
-            int lieferkapazitaet = int.Parse(werte[3]);
-            return new Lieferroboter(name, energielevel, lieferkapazitaet);
-        }
 
         return new Roboter
         {
             Name = name,
-            Typ = typ,
             Energielevel = energielevel
         };
     }
@@ -70,7 +59,7 @@ public class Roboter : ISerializer
 
     public virtual string GetStatus()
     {
-        return $"Roboter - Name: {Name}, Typ: {Typ}, Energielevel: {Energielevel}";
+        return $"Roboter - Name: {Name}, Energielevel: {Energielevel}";
     }
 
     public virtual void Activate()
@@ -92,6 +81,15 @@ public class Roboter : ISerializer
         Console.WriteLine("robot powered down");
     }
 
+    public static string gibRezept()
+    {
+        return "Mhm... Keksblech...";
+    }
+
+    public int gibNaerwertangaben()
+    {
+        return 2;
+    }
     
 }
 
@@ -100,7 +98,6 @@ public class Lieferroboter : Roboter
     public uint Lieferkapazität { get; set; }
     public Lieferroboter() : base()
     {
-        Typ = "Lieferroboter";
     }
     public Lieferroboter(string name, int energielevel, uint lieferkapazität) : base(name, "Lieferroboter", energielevel)
     {
@@ -109,6 +106,6 @@ public class Lieferroboter : Roboter
 
     public override string GetStatus()
     {
-        return $"Lieferroboter - Name: {Name}, Typ: {Typ}, Energielevel: {Energielevel}, Lieferkapazität: {Lieferkapazität}";
+        return $"Lieferroboter - Name: {Name}, Energielevel: {Energielevel}, Lieferkapazität: {Lieferkapazität}";
     }
 }
