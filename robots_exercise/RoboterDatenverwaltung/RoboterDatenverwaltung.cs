@@ -35,7 +35,14 @@ public class Roboter : ISerializer, ICookable
         string[] werte = zeilen[0].Split(',');
 
         string name = werte[0];
+        string typ = werte[1];
         int energielevel = int.Parse(werte[2]);
+
+        if (typ == "Lieferroboter" && werte.Length > 3)
+        {
+            uint lieferkapazitaet = uint.Parse(werte[3]);
+            return new Lieferroboter(name, energielevel, lieferkapazitaet);
+        }
 
         return new Roboter
         {
@@ -81,9 +88,9 @@ public class Roboter : ISerializer, ICookable
         Console.WriteLine("robot powered down");
     }
 
-    public static string gibRezept()
+    public static void gibRezept()
     {
-        return "Mhm... Keksblech...";
+        Console.WriteLine("Mhm... Keksblech...");
     }
 
     public int gibNaerwertangaben()
