@@ -7,3 +7,9 @@ public interface ISerializer
     void SpeichernAlsCSV(string dateipfad);
     static abstract Roboter LadenAusCSV(string dateipfad);
 }
+
+public interface ICookable
+{
+    static abstract void gibRezept();
+    int gibNaerwertangaben();
+}
