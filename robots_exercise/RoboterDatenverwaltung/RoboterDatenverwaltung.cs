@@ -24,8 +24,8 @@ public class Roboter : ISerializer, ICookable
     public void SpeichernAlsCSV(string dateipfad)
     {
         string inhalt = this is Lieferroboter lieferroboter
-            ? $"{Name},{Energielevel},{lieferroboter.Lieferkapazität}"
-            : $"{Name},{Energielevel}";
+            ? $"{Name},{GetType().Name},{Energielevel},{lieferroboter.Lieferkapazität}"
+            : $"{Name},{GetType().Name},{Energielevel}";
         File.WriteAllText(dateipfad, inhalt);
     }
 
@@ -59,7 +59,7 @@ public class Roboter : ISerializer, ICookable
 
     public virtual string GetStatus()
     {
-        return $"Roboter - Name: {Name}, Energielevel: {Energielevel}";
+        return $"Roboter - Name: {Name}, Typ: {GetType().Name} , Energielevel: {Energielevel}";
     }
 
     public virtual void Activate()
