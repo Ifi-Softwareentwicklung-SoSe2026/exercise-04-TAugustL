@@ -99,7 +99,7 @@ public class Lieferroboter : Roboter
     public Lieferroboter() : base()
     {
     }
-    public Lieferroboter(string name, int energielevel, uint lieferkapazität) : base(name, "Lieferroboter", energielevel)
+    public Lieferroboter(string name, int energielevel, uint lieferkapazität) : base(name, energielevel)
     {
         Lieferkapazität = lieferkapazität;
     }
